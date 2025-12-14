@@ -41,6 +41,7 @@ def main():
         # Start a new round
         player_score, npc_score = play_game(deck, player_score, npc_score)
 
+        # Check if either player has reached a score worthy of victory.
         if (player_score >= 200 and player_score > npc_score):
             print("Congratulations! You've won the game with a total score of", player_score)
             is_game_over = True
