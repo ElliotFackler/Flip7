@@ -92,6 +92,8 @@ def play_game(deck, player_score, npc_score):
 
         if (len(cards_drawn) >= 7): # NPC has reached seven number cards. This means that the round is over and the NPC gets 15 extra points
             is_round_over = True
+            is_player_turn_over = True
+            is_npc_turn_over = True
             npc_score = npc_score + 15
 
             # TODO: Put in no card option
