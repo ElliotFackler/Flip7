@@ -8,10 +8,13 @@ def play_game(deck, player_score, npc_score):
     is_player_turn_over = False
     is_npc_turn_over = False
     cards_drawn = []
+    npc_cards_drawn = []
     chosen_card = ""
+    npc_chosen_card = ""
     number_cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     bonus_points = ["+2", "+4", "+6", "+8", "+10"]
     multiplier = 1
+    npc_multiplier = 1
 
     # Begin the new round
     print("New Round Begin - Player Score:", player_score, "NPC Score:", npc_score)
@@ -65,32 +68,35 @@ def play_game(deck, player_score, npc_score):
                 is_npc_turn_over = True
                 player_score = player_score + 15
 
+            print("Your card count for this round is ", sum(cards_drawn) * multiplier)
+            print("The cards you have drawn so far this round are: ", cards_drawn, "\n")
+
         while not is_npc_turn_over:
 
-            chosen_card_index = random.randrange(len(deck))
-            chosen_card = deck.pop(chosen_card_index)
+            npc_chosen_card_index = random.randrange(len(deck))
+            npc_chosen_card = deck.pop(npc_chosen_card_index)
                 
-            if (chosen_card in cards_drawn and chosen_card in number_cards): # The NPC draws a card that he/she has already drawn
-                print("The NPC drew a card that he already has:", chosen_card)
+            if (npc_chosen_card in npc_cards_drawn and npc_chosen_card in number_cards): # The NPC draws a card that he/she has already drawn
+                print("The NPC drew a card that he already has:", npc_chosen_card)
                 is_round_over = True
                 is_npc_turn_over = True
                 cards_drawn = []
                 break
-            elif (chosen_card in bonus_points): # The NPC draws an additive point modifier card
-                npc_score = npc_score + int(chosen_card[1])
-            elif (chosen_card == "FREEZE"): # The NPC draws a freeze card
+            elif (npc_chosen_card in bonus_points): # The NPC draws an additive point modifier card
+                npc_score = npc_score + int(npc_chosen_card[1])
+            elif (npc_chosen_card == "FREEZE"): # The NPC draws a freeze card
                 print("FREEZE")
                 is_player_turn_over = True
-            elif (chosen_card == "x2"):
-                multiplier = 2
+            elif (npc_chosen_card == "x2"):
+                npc_multiplier = 2
 
             else: # The NPC draws a number card
-                cards_drawn.append(chosen_card)
+                npc_cards_drawn.append(npc_chosen_card)
 
                 
-            print("The NPC's card is", chosen_card)
+            print("The NPC's card is", npc_chosen_card)
 
-        if (len(cards_drawn) >= 7): # NPC has reached seven number cards. This means that the round is over and the NPC gets 15 extra points
+        if (len(npc_cards_drawn) >= 7): # NPC has reached seven number cards. This means that the round is over and the NPC gets 15 extra points
             is_round_over = True
             is_player_turn_over = True
             is_npc_turn_over = True
