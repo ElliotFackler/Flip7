@@ -22,7 +22,7 @@ def play_game(deck, player_score, npc_score):
 
     while not is_round_over:
 
-        while not is_player_turn_over:
+        if not is_player_turn_over:
             # Check player input
             player_input = input("Would you like a new card? Y or N \n")
 
@@ -47,9 +47,13 @@ def play_game(deck, player_score, npc_score):
                     break
                 elif (chosen_card in bonus_points): # The player draws an additive point modifier card
                     player_score = player_score + int(chosen_card[1])
-                elif (chosen_card == "FREEZE"): # The player draws a freeze card
-                    print("FREEZE")
+                elif (chosen_card == "FREEZE!"): # The player draws a freeze card
+                    print("FREEZE!")
                     is_npc_turn_over = True
+                elif (chosen_card == "FLIP THREE"):
+                    print("FLIP THREE!")
+                elif (chosen_card == "SECOND CHANCE!"):
+                    print("SECOND CHANCE!")
                 elif (chosen_card == "x2"):
                     multiplier = 2
 
@@ -68,10 +72,7 @@ def play_game(deck, player_score, npc_score):
                 is_npc_turn_over = True
                 player_score = player_score + 15
 
-            print("Your card count for this round is ", sum(cards_drawn) * multiplier)
-            print("The cards you have drawn so far this round are: ", cards_drawn, "\n")
-
-        while not is_npc_turn_over:
+        if not is_npc_turn_over:
 
             npc_chosen_card_index = random.randrange(len(deck))
             npc_chosen_card = deck.pop(npc_chosen_card_index)
@@ -84,10 +85,14 @@ def play_game(deck, player_score, npc_score):
                 break
             elif (npc_chosen_card in bonus_points): # The NPC draws an additive point modifier card
                 npc_score = npc_score + int(npc_chosen_card[1])
-            elif (npc_chosen_card == "FREEZE"): # The NPC draws a freeze card
-                print("FREEZE")
+            elif (npc_chosen_card == "FREEZE!"): # The NPC draws a freeze card
+                print("FREEZE!")
                 is_player_turn_over = True
-            elif (npc_chosen_card == "x2"):
+            elif (npc_chosen_card ==  "DRAW THREE!"):
+                print("FLIP THREE!")
+            elif (npc_chosen_card == "SECOND CHANCE!"):
+                print("SECOND CHANCE!")
+            elif (npc_chosen_card == "x2"): # The NPC draws the multiplier
                 npc_multiplier = 2
 
             else: # The NPC draws a number card
@@ -96,25 +101,21 @@ def play_game(deck, player_score, npc_score):
                 
             print("The NPC's card is", npc_chosen_card)
 
-        if (len(npc_cards_drawn) >= 7): # NPC has reached seven number cards. This means that the round is over and the NPC gets 15 extra points
-            is_round_over = True
-            is_player_turn_over = True
-            is_npc_turn_over = True
-            npc_score = npc_score + 15
+            if (len(npc_cards_drawn) >= 7): # NPC has reached seven number cards. This means that the round is over and the NPC gets 15 extra points
+                is_round_over = True
+                is_player_turn_over = True
+                is_npc_turn_over = True
+                npc_score = npc_score + 15
 
             # TODO: Put in no card option
 
 
-            # TODO: Put in yes card option.
+            # TODO: Put in yes card option.        
 
-            # NPC's card choice
-            print("The NPC's card is")
-        
-            # Check if the NPC busts
-            # Check if the NPC has seven number cards.
-
-        print("Your card count for this round is ", sum(cards_drawn) * multiplier)
+        print("Your card count for this round is", sum(cards_drawn) * multiplier)
+        print("The NPC's card count for this round is", sum(npc_cards_drawn) * multiplier)
         print("The cards you have drawn so far this round are: ", cards_drawn, "\n")
+        print("The cards the NPC has drawn so far this round are: ", npc_cards_drawn, "\n")
 
     return player_score, npc_score
 
