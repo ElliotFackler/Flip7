@@ -4,7 +4,6 @@ from main import *
 
 def play_game(deck, player_score, npc_score):
     # Create stuff
-    is_round_over = False
     is_player_turn_over = False
     is_npc_turn_over = False
     cards_drawn = []
@@ -20,7 +19,7 @@ def play_game(deck, player_score, npc_score):
     print("New Round Begin - Player Score:", player_score, "NPC Score:", npc_score)
 
 
-    while not is_round_over:
+    while not is_player_turn_over and not is_npc_turn_over:
 
         if not is_player_turn_over:
             # Check player input
@@ -29,7 +28,6 @@ def play_game(deck, player_score, npc_score):
 
             # Check if the player wants a new card or if he/she would like to end his/her part in the round.
             if (player_input == "N" or player_input == "n"):
-                is_round_over = True
                 is_player_turn_over = True
 
                 # Count up player's points for the round.
@@ -41,7 +39,6 @@ def play_game(deck, player_score, npc_score):
                 
                 if (chosen_card in cards_drawn and chosen_card in number_cards): # The player draws a card that he/she has already drawn
                     print("You drew a card that you already have:", chosen_card)
-                    is_round_over = True
                     is_player_turn_over = True
                     cards_drawn = []
                     break
@@ -50,7 +47,7 @@ def play_game(deck, player_score, npc_score):
                 elif (chosen_card == "FREEZE!"): # The player draws a freeze card
                     print("FREEZE!")
                     is_npc_turn_over = True
-                elif (chosen_card == "FLIP THREE"):
+                elif (chosen_card == "FLIP THREE!"):
                     print("FLIP THREE!")
                 elif (chosen_card == "SECOND CHANCE!"):
                     print("SECOND CHANCE!")
@@ -67,7 +64,6 @@ def play_game(deck, player_score, npc_score):
 
             if (len(cards_drawn) >= 7): # Player has reached seven number cards. This means that the round is over and the player gets 15 extra points
                 print("You've reached seven number cards. The round is over.")
-                is_round_over = True
                 is_player_turn_over = True
                 is_npc_turn_over = True
                 player_score = player_score + 15
@@ -79,7 +75,6 @@ def play_game(deck, player_score, npc_score):
                 
             if (npc_chosen_card in npc_cards_drawn and npc_chosen_card in number_cards): # The NPC draws a card that he/she has already drawn
                 print("The NPC drew a card that he already has:", npc_chosen_card)
-                is_round_over = True
                 is_npc_turn_over = True
                 cards_drawn = []
                 break
@@ -88,7 +83,7 @@ def play_game(deck, player_score, npc_score):
             elif (npc_chosen_card == "FREEZE!"): # The NPC draws a freeze card
                 print("FREEZE!")
                 is_player_turn_over = True
-            elif (npc_chosen_card ==  "DRAW THREE!"):
+            elif (npc_chosen_card ==  "FLIP THREE!"):
                 print("FLIP THREE!")
             elif (npc_chosen_card == "SECOND CHANCE!"):
                 print("SECOND CHANCE!")
@@ -102,7 +97,6 @@ def play_game(deck, player_score, npc_score):
             print("The NPC's card is", npc_chosen_card)
 
             if (len(npc_cards_drawn) >= 7): # NPC has reached seven number cards. This means that the round is over and the NPC gets 15 extra points
-                is_round_over = True
                 is_player_turn_over = True
                 is_npc_turn_over = True
                 npc_score = npc_score + 15
@@ -113,7 +107,7 @@ def play_game(deck, player_score, npc_score):
             # TODO: Put in yes card option.        
 
         print("Your card count for this round is", sum(cards_drawn) * multiplier)
-        print("The NPC's card count for this round is", sum(npc_cards_drawn) * multiplier)
+        print("The NPC's card count for this round is", sum(npc_cards_drawn) * npc_multiplier)
         print("The cards you have drawn so far this round are: ", cards_drawn, "\n")
         print("The cards the NPC has drawn so far this round are: ", npc_cards_drawn, "\n")
 
