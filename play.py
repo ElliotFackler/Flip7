@@ -19,7 +19,7 @@ def play_game(deck, player_score, npc_score):
     print("New Round Begin - Player Score:", player_score, "NPC Score:", npc_score)
 
 
-    while not is_player_turn_over and not is_npc_turn_over:
+    while not is_player_turn_over or not is_npc_turn_over:
 
         if not is_player_turn_over:
             # Check player input
@@ -34,8 +34,7 @@ def play_game(deck, player_score, npc_score):
                 player_score = player_score + sum(cards_drawn)
 
             elif (player_input == "Y" or player_input == "y"):
-                chosen_card_index = random.randrange(len(deck))
-                chosen_card = deck.pop(chosen_card_index)
+                chosen_card, deck = draw_a_card(deck)
                 
                 if (chosen_card in cards_drawn and chosen_card in number_cards): # The player draws a card that he/she has already drawn
                     print("You drew a card that you already have:", chosen_card)
@@ -49,8 +48,10 @@ def play_game(deck, player_score, npc_score):
                     is_npc_turn_over = True
                 elif (chosen_card == "FLIP THREE!"):
                     print("FLIP THREE!")
+                    # TODO: Set up flip three
                 elif (chosen_card == "SECOND CHANCE!"):
                     print("SECOND CHANCE!")
+                    # TODO: Set up second chance.
                 elif (chosen_card == "x2"):
                     multiplier = 2
 
@@ -69,9 +70,7 @@ def play_game(deck, player_score, npc_score):
                 player_score = player_score + 15
 
         if not is_npc_turn_over:
-
-            npc_chosen_card_index = random.randrange(len(deck))
-            npc_chosen_card = deck.pop(npc_chosen_card_index)
+            npc_chosen_card, deck = draw_a_card(deck)
                 
             if (npc_chosen_card in npc_cards_drawn and npc_chosen_card in number_cards): # The NPC draws a card that he/she has already drawn
                 print("The NPC drew a card that he already has:", npc_chosen_card)
@@ -85,8 +84,10 @@ def play_game(deck, player_score, npc_score):
                 is_player_turn_over = True
             elif (npc_chosen_card ==  "FLIP THREE!"):
                 print("FLIP THREE!")
+                # TODO: Set up actual flip three stuff
             elif (npc_chosen_card == "SECOND CHANCE!"):
                 print("SECOND CHANCE!")
+                # TODO: Set up second chance.
             elif (npc_chosen_card == "x2"): # The NPC draws the multiplier
                 npc_multiplier = 2
 
@@ -112,6 +113,14 @@ def play_game(deck, player_score, npc_score):
         print("The cards the NPC has drawn so far this round are: ", npc_cards_drawn, "\n")
 
     return player_score, npc_score
+
+
+
+def draw_a_card(deck): # Pick another card randomly from the deck.
+    print("Card drawn")
+    index = random.randrange(len(deck))
+    card_drawn = deck.pop(index)
+    return card_drawn, deck
 
 
     
