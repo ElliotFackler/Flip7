@@ -1,18 +1,21 @@
 from utils import draw_a_card
 
-
 def play_game(deck):
     # Create stuff
     is_player_turn_over = False
     is_npc_turn_over = False
     cards_drawn = []
+    player_number_cards_drawn = []
     npc_cards_drawn = []
+    npc_number_cards_drawn = []
     chosen_card = ""
     npc_chosen_card = ""
     number_cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     bonus_points = ["+2", "+4", "+6", "+8", "+10"]
     multiplier = 1
     npc_multiplier = 1
+    player_bonus_points = 0
+    npc_bonus_points = 0
     player_score = 0
     npc_score = 0
 
@@ -21,13 +24,12 @@ def play_game(deck):
             # Check player input
             player_input = input("Would you like a new card? Y or N \n")
 
-
             # Check if the player wants a new card or if he/she would like to end his/her part in the round.
             if (player_input == "N" or player_input == "n"):
                 is_player_turn_over = True
 
                 # Count up player's points for the round.
-                player_score = player_score + sum(cards_drawn)
+                player_score = sum(player_number_cards_drawn) * multiplier + player_score
 
             elif (player_input == "Y" or player_input == "y"):
                 chosen_card, deck = draw_a_card(deck)
@@ -52,18 +54,19 @@ def play_game(deck):
                     multiplier = 2
 
                 else: # The player draws a number card
-                    cards_drawn.append(chosen_card)
+                    player_number_cards_drawn.append(chosen_card)
 
+                cards_drawn.append(chosen_card)
                 print("Your card is", chosen_card)
             else:
                 print("That input is not valid")
                 continue
 
-            if (len(cards_drawn) >= 7): # Player has reached seven number cards. This means that the round is over and the player gets 15 extra points
+            if (len(player_number_cards_drawn) >= 7): # Player has reached seven number cards. This means that the round is over and the player gets 15 extra points
                 print("You've reached seven number cards. The round is over.")
                 is_player_turn_over = True
                 is_npc_turn_over = True
-                player_score = player_score + 15
+                player_score = sum(player_number_cards_drawn) * multiplier + 15 + player_score
 
         if not is_npc_turn_over:
             npc_chosen_card, deck = draw_a_card(deck)
@@ -88,23 +91,17 @@ def play_game(deck):
                 npc_multiplier = 2
 
             else: # The NPC draws a number card
-                npc_cards_drawn.append(npc_chosen_card)
+                npc_score = npc_score + int(npc_chosen_card)
 
-                
+            npc_cards_drawn.append(npc_chosen_card)    
             print("The NPC's card is", npc_chosen_card)
 
             if (len(npc_cards_drawn) >= 7): # NPC has reached seven number cards. This means that the round is over and the NPC gets 15 extra points
                 is_player_turn_over = True
                 is_npc_turn_over = True
                 npc_score = npc_score + 15
+     
 
-            # TODO: Put in no card option
-
-
-            # TODO: Put in yes card option.        
-
-        print("Your card count for this round is", sum(cards_drawn) * multiplier)
-        print("The NPC's card count for this round is", sum(npc_cards_drawn) * npc_multiplier)
         print("The cards you have drawn so far this round are: ", cards_drawn, "\n")
         print("The cards the NPC has drawn so far this round are: ", npc_cards_drawn, "\n")
 
