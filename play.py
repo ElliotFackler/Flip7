@@ -1,8 +1,7 @@
-import random
-from main import *
+from utils import draw_a_card
 
 
-def play_game(deck, player_score, npc_score):
+def play_game(deck):
     # Create stuff
     is_player_turn_over = False
     is_npc_turn_over = False
@@ -14,13 +13,10 @@ def play_game(deck, player_score, npc_score):
     bonus_points = ["+2", "+4", "+6", "+8", "+10"]
     multiplier = 1
     npc_multiplier = 1
-
-    # Begin the new round
-    print("New Round Begin - Player Score:", player_score, "NPC Score:", npc_score)
-
+    player_score = 0
+    npc_score = 0
 
     while not is_player_turn_over or not is_npc_turn_over:
-
         if not is_player_turn_over:
             # Check player input
             player_input = input("Would you like a new card? Y or N \n")
@@ -40,7 +36,7 @@ def play_game(deck, player_score, npc_score):
                     print("You drew a card that you already have:", chosen_card)
                     is_player_turn_over = True
                     cards_drawn = []
-                    break
+                    player_score = 0
                 elif (chosen_card in bonus_points): # The player draws an additive point modifier card
                     player_score = player_score + int(chosen_card[1])
                 elif (chosen_card == "FREEZE!"): # The player draws a freeze card
@@ -76,7 +72,7 @@ def play_game(deck, player_score, npc_score):
                 print("The NPC drew a card that he already has:", npc_chosen_card)
                 is_npc_turn_over = True
                 cards_drawn = []
-                break
+                npc_score = 0
             elif (npc_chosen_card in bonus_points): # The NPC draws an additive point modifier card
                 npc_score = npc_score + int(npc_chosen_card[1])
             elif (npc_chosen_card == "FREEZE!"): # The NPC draws a freeze card
@@ -116,11 +112,7 @@ def play_game(deck, player_score, npc_score):
 
 
 
-def draw_a_card(deck): # Pick another card randomly from the deck.
-    print("Card drawn")
-    index = random.randrange(len(deck))
-    card_drawn = deck.pop(index)
-    return card_drawn, deck
+
 
 
     
