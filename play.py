@@ -1,4 +1,4 @@
-from utils import draw_a_card
+from utils import draw_a_card, calculate_score
 
 def play_game(deck):
     # Create stuff
@@ -14,14 +14,11 @@ def play_game(deck):
     bonus_points = ["+2", "+4", "+6", "+8", "+10"]
     multiplier = 1
     npc_multiplier = 1
-    player_bonus_points = 0
-    npc_bonus_points = 0
     player_score = 0
     npc_score = 0
 
     while not is_player_turn_over or not is_npc_turn_over:
         if not is_player_turn_over:
-            # Check player input
             player_input = input("Would you like a new card? Y or N \n")
 
             # Check if the player wants a new card or if he/she would like to end his/her part in the round.
@@ -29,12 +26,12 @@ def play_game(deck):
                 is_player_turn_over = True
 
                 # Count up player's points for the round.
-                player_score = sum(player_number_cards_drawn) * multiplier + player_score
+                player_score = calculate_score(player_number_cards_drawn, multiplier, player_score, 0)
 
             elif (player_input == "Y" or player_input == "y"):
                 chosen_card, deck = draw_a_card(deck)
                 
-                if (chosen_card in cards_drawn and chosen_card in number_cards): # The player draws a card that he/she has already drawn
+                if (chosen_card in player_number_cards_drawn): # The player draws a card that he/she has already drawn
                     print("You drew a card that you already have:", chosen_card)
                     is_player_turn_over = True
                     cards_drawn = []
@@ -66,15 +63,15 @@ def play_game(deck):
                 print("You've reached seven number cards. The round is over.")
                 is_player_turn_over = True
                 is_npc_turn_over = True
-                player_score = sum(player_number_cards_drawn) * multiplier + 15 + player_score
+                player_score = (player_number_cards_drawn, multiplier, player_score, 15)
 
         if not is_npc_turn_over:
             npc_chosen_card, deck = draw_a_card(deck)
                 
-            if (npc_chosen_card in npc_cards_drawn and npc_chosen_card in number_cards): # The NPC draws a card that he/she has already drawn
+            if (npc_chosen_card in npc_number_cards_drawn): # The NPC draws a card that he/she has already drawn
                 print("The NPC drew a card that he already has:", npc_chosen_card)
                 is_npc_turn_over = True
-                cards_drawn = []
+                npc_cards_drawn = []
                 npc_score = 0
             elif (npc_chosen_card in bonus_points): # The NPC draws an additive point modifier card
                 npc_score = npc_score + int(npc_chosen_card[1])
@@ -89,23 +86,24 @@ def play_game(deck):
                 # TODO: Set up second chance.
             elif (npc_chosen_card == "x2"): # The NPC draws the multiplier
                 npc_multiplier = 2
-
             else: # The NPC draws a number card
-                npc_score = npc_score + int(npc_chosen_card)
+                npc_number_cards_drawn.append(npc_chosen_card)
 
             npc_cards_drawn.append(npc_chosen_card)    
             print("The NPC's card is", npc_chosen_card)
 
-            if (len(npc_cards_drawn) >= 7): # NPC has reached seven number cards. This means that the round is over and the NPC gets 15 extra points
+            if (len(npc_number_cards_drawn) >= 7): # NPC has reached seven number cards. This means that the round is over and the NPC gets 15 extra points
                 is_player_turn_over = True
                 is_npc_turn_over = True
-                npc_score = npc_score + 15
+                npc_score = calculate_score(npc_number_cards_drawn, npc_multiplier, npc_score, 15)
      
 
         print("The cards you have drawn so far this round are: ", cards_drawn, "\n")
         print("The cards the NPC has drawn so far this round are: ", npc_cards_drawn, "\n")
 
     return player_score, npc_score
+
+
 
 
 

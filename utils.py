@@ -27,7 +27,10 @@ def create_deck():
     return deck
 
 def draw_a_card(deck): # Pick another card randomly from the deck.
-    print("Card drawn")
     index = random.randrange(len(deck))
     card_drawn = deck.pop(index)
     return card_drawn, deck
+
+
+def calculate_score(number_card_sum, multiplier, bonus_points, seven_card_bonus):
+    return sum(number_card_sum) * multiplier + bonus_points + seven_card_bonus
