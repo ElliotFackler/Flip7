@@ -1,4 +1,4 @@
-from utils import draw_a_card, calculate_score
+from utils import draw_a_card, calculate_score, add_bonus_points, has_flipped_seven, has_freeze, has_flip_three, has_second_chance, has_multiplier, has_bonus_points
 
 def play_game(deck):
     # Create stuff
@@ -8,10 +8,6 @@ def play_game(deck):
     player_number_cards_drawn = []
     npc_cards_drawn = []
     npc_number_cards_drawn = []
-    chosen_card = ""
-    npc_chosen_card = ""
-    number_cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    bonus_points = ["+2", "+4", "+6", "+8", "+10"]
     multiplier = 1
     npc_multiplier = 1
     player_score = 0
@@ -36,20 +32,19 @@ def play_game(deck):
                     is_player_turn_over = True
                     cards_drawn = []
                     player_score = 0
-                elif (chosen_card in bonus_points): # The player draws an additive point modifier card
-                    player_score = player_score + int(chosen_card[1])
-                elif (chosen_card == "FREEZE!"): # The player draws a freeze card
+                elif (has_bonus_points(chosen_card)): # The player draws an additive point modifier card
+                    player_score = player_score + add_bonus_points(chosen_card)
+                elif (has_freeze(chosen_card)): # The player draws a freeze card
                     print("FREEZE!")
                     is_npc_turn_over = True
-                elif (chosen_card == "FLIP THREE!"):
+                elif (has_flip_three(chosen_card)):
                     print("FLIP THREE!")
                     # TODO: Set up flip three
-                elif (chosen_card == "SECOND CHANCE!"):
+                elif (has_second_chance(chosen_card)):
                     print("SECOND CHANCE!")
                     # TODO: Set up second chance.
-                elif (chosen_card == "x2"):
+                elif (has_multiplier(chosen_card)):
                     multiplier = 2
-
                 else: # The player draws a number card
                     player_number_cards_drawn.append(chosen_card)
 
@@ -59,7 +54,7 @@ def play_game(deck):
                 print("That input is not valid")
                 continue
 
-            if (len(player_number_cards_drawn) >= 7): # Player has reached seven number cards. This means that the round is over and the player gets 15 extra points
+            if (has_flipped_seven(player_number_cards_drawn)): # Player has reached seven number cards. This means that the round is over and the player gets 15 extra points
                 print("You've reached seven number cards. The round is over.")
                 is_player_turn_over = True
                 is_npc_turn_over = True
@@ -73,18 +68,18 @@ def play_game(deck):
                 is_npc_turn_over = True
                 npc_cards_drawn = []
                 npc_score = 0
-            elif (npc_chosen_card in bonus_points): # The NPC draws an additive point modifier card
-                npc_score = npc_score + int(npc_chosen_card[1])
-            elif (npc_chosen_card == "FREEZE!"): # The NPC draws a freeze card
+            elif (has_bonus_points(npc_chosen_card)): # The NPC draws an additive point modifier card
+                npc_score = npc_score + add_bonus_points(npc_chosen_card)
+            elif (has_freeze(npc_chosen_card)): # The NPC draws a freeze card
                 print("FREEZE!")
                 is_player_turn_over = True
-            elif (npc_chosen_card ==  "FLIP THREE!"):
+            elif (has_flip_three(npc_chosen_card)):
                 print("FLIP THREE!")
                 # TODO: Set up actual flip three stuff
-            elif (npc_chosen_card == "SECOND CHANCE!"):
+            elif (has_second_chance(npc_chosen_card)):
                 print("SECOND CHANCE!")
                 # TODO: Set up second chance.
-            elif (npc_chosen_card == "x2"): # The NPC draws the multiplier
+            elif (has_multiplier(npc_chosen_card)): # The NPC draws the multiplier
                 npc_multiplier = 2
             else: # The NPC draws a number card
                 npc_number_cards_drawn.append(npc_chosen_card)
@@ -92,7 +87,7 @@ def play_game(deck):
             npc_cards_drawn.append(npc_chosen_card)    
             print("The NPC's card is", npc_chosen_card)
 
-            if (len(npc_number_cards_drawn) >= 7): # NPC has reached seven number cards. This means that the round is over and the NPC gets 15 extra points
+            if (has_flipped_seven(npc_number_cards_drawn)): # NPC has reached seven number cards. This means that the round is over and the NPC gets 15 extra points
                 is_player_turn_over = True
                 is_npc_turn_over = True
                 npc_score = calculate_score(npc_number_cards_drawn, npc_multiplier, npc_score, 15)
