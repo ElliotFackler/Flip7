@@ -4,9 +4,26 @@ def create_deck():
     # Create the base deck.
     deck = [0]
 
+    full_deck = {}
+
     # Add the number of each card to the deck.
     for i in range (1, 13):
         deck = deck + ([i] * i)
+        full_deck[i] = i
+
+
+    full_deck["FREEZE!"] = 3
+    full_deck["FLIP THREE!"] = 3
+    full_deck["FREEZE!"] = 3
+    full_deck["SECOND CHANCE!"] = 3
+    full_deck["+2"] = 1
+    full_deck["+4"] = 1
+    full_deck["+6"] = 1
+    full_deck["+8"] = 1
+    full_deck["+10"] = 1
+    full_deck["x2"] = 1
+
+    #print(full_deck)
 
     # Create the action cards and the point modifier cards.
     deck.append("FREEZE!")
@@ -24,12 +41,23 @@ def create_deck():
     deck.append("+8")
     deck.append("+10")
     deck.append("x2")
-    return deck
+    return full_deck
 
-def draw_a_card(deck): # Pick another card randomly from the deck.
-    index = random.randrange(len(deck))
-    card_drawn = deck.pop(index)
-    return card_drawn, deck
+def draw_a_card(full_deck): # Pick another card randomly from the deck.
+
+    weights = list(full_deck.values())
+    options = list(full_deck.keys())
+
+    card = random.choices(options, weights=weights, k=1)[0]
+
+    full_deck[card] -= 1
+
+    if full_deck[card] == 0:
+        del full_deck[card]
+
+    #index = random.randrange(len(deck))
+    #card_drawn = deck.pop(index)
+    return card, full_deck
 
 def calculate_score(number_card_sum, multiplier, bonus_points, seven_card_bonus):
     return sum(number_card_sum) * multiplier + bonus_points + seven_card_bonus

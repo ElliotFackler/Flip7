@@ -1,6 +1,6 @@
 from utils import *
 
-def play_game(deck):
+def play_game(full_deck):
     # Create stuff
     is_player_turn_over = False
     is_npc_turn_over = False
@@ -25,7 +25,7 @@ def play_game(deck):
                 player_score = calculate_score(player_number_cards_drawn, multiplier, player_score, 0)
 
             elif (player_input == "Y" or player_input == "y"):
-                chosen_card, deck = draw_a_card(deck)
+                chosen_card, full_deck = draw_a_card(full_deck)
                 
                 if (chosen_card in player_number_cards_drawn): # The player draws a card that he/she has already drawn
                     print("You drew a card that you already have:", chosen_card)
@@ -61,8 +61,8 @@ def play_game(deck):
                 player_score = calculate_score(player_number_cards_drawn, multiplier, player_score, 15)
 
         if not is_npc_turn_over:
-            npc_chosen_card, deck = draw_a_card(deck)
-                
+            npc_chosen_card, full_deck = draw_a_card(full_deck)
+
             if (npc_chosen_card in npc_number_cards_drawn): # The NPC draws a card that he/she has already drawn
                 print("The NPC drew a card that he already has:", npc_chosen_card)
                 is_npc_turn_over = True
