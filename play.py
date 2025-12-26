@@ -1,4 +1,4 @@
-from utils import draw_a_card, calculate_score, add_bonus_points, has_flipped_seven, has_freeze, has_flip_three, has_second_chance, has_multiplier, has_bonus_points
+from utils import *
 
 def play_game(deck):
     # Create stuff
@@ -58,7 +58,7 @@ def play_game(deck):
                 print("You've reached seven number cards. The round is over.")
                 is_player_turn_over = True
                 is_npc_turn_over = True
-                player_score = (player_number_cards_drawn, multiplier, player_score, 15)
+                player_score = calculate_score(player_number_cards_drawn, multiplier, player_score, 15)
 
         if not is_npc_turn_over:
             npc_chosen_card, deck = draw_a_card(deck)
