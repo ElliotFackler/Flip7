@@ -2,13 +2,10 @@ import random
 
 def create_deck():
     # Create the base deck.
-    deck = [0]
-
     full_deck = {}
 
     # Add the number of each card to the deck.
     for i in range (1, 13):
-        deck = deck + ([i] * i)
         full_deck[i] = i
 
 
@@ -23,24 +20,6 @@ def create_deck():
     full_deck["+10"] = 1
     full_deck["x2"] = 1
 
-    #print(full_deck)
-
-    # Create the action cards and the point modifier cards.
-    deck.append("FREEZE!")
-    deck.append("FREEZE!")
-    deck.append("FREEZE!")
-    deck.append("FLIP THREE!")
-    deck.append("FLIP THREE!")
-    deck.append("FLIP THREE!")
-    deck.append("SECOND CHANCE!")
-    deck.append("SECOND CHANCE!")
-    deck.append("SECOND CHANCE!")
-    deck.append("+2")
-    deck.append("+4")
-    deck.append("+6")
-    deck.append("+8")
-    deck.append("+10")
-    deck.append("x2")
     return full_deck
 
 def draw_a_card(full_deck): # Pick another card randomly from the deck.
@@ -55,8 +34,6 @@ def draw_a_card(full_deck): # Pick another card randomly from the deck.
     if full_deck[card] == 0:
         del full_deck[card]
 
-    #index = random.randrange(len(deck))
-    #card_drawn = deck.pop(index)
     return card, full_deck
 
 def calculate_score(number_card_sum, multiplier, bonus_points, seven_card_bonus):
