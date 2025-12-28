@@ -7,6 +7,9 @@ def play_game():
 
     deck2 = round.create_deck()
 
+
+    print(deck2)
+
     player1 = Player("Player 1")
     player2 = Player("NPC")
 
@@ -23,12 +26,12 @@ def play_game():
                 player1.score = calculate_score(player1.number_cards_drawn, player1.multiplier, player1.score, 0)
 
             elif (player_input == "Y" or player_input == "y"):
-                card, deck2 = draw_a_card(deck2)
+                card, deck2 = round.draw_a_card(deck2)
                 
-                if (card in player1.number_cards_drawn): # The player draws a card that he/she has already drawn
+                if (card["Type"] == "Number" and card in player1.number_cards_drawn): # The player draws a card that he/she has already drawn
                     print("You drew a card that you already have:", card)
                     player1.is_turn_over = True
-                    round.cards_drawn = []
+                    player1.cards_drawn = []
                     player1.score = 0
                 elif (has_bonus_points(card)): # The player draws an additive point modifier card
                     player1.score = player1.score + add_bonus_points(card)
@@ -46,7 +49,7 @@ def play_game():
                 else: # The player draws a number card
                     player1.number_cards_drawn.append(card)
 
-                round.cards_drawn.append(card)
+                player1.cards_drawn.append(card)
                 print("Your card is", card)
             else:
                 print("That input is not valid")
@@ -59,12 +62,12 @@ def play_game():
                 player1.score = calculate_score(player1.number_cards_drawn, player1.multiplier, player1.score, 15)
 
         if not player2.is_turn_over:
-            card, deck2 = draw_a_card(deck2)
+            card, deck2 = round.draw_a_card(deck2)
 
             if (card in player2.number_cards_drawn): # The NPC draws a card that he/she has already drawn
                 print("The NPC drew a card that he already has:", card)
                 player2.is_turn_over = True
-                round.npc_cards_drawn = []
+                player2.cards_drawn = []
                 player2.score = 0
             elif (has_bonus_points(card)): # The NPC draws an additive point modifier card
                 player2.score = player2.score + add_bonus_points(card)
@@ -82,7 +85,7 @@ def play_game():
             else: # The NPC draws a number card
                 player2.number_cards_drawn.append(card)
 
-            round.npc_cards_drawn.append(card)    
+            player2.cards_drawn.append(card)    
             print("The NPC's card is", card)
 
             if (has_flipped_seven(player2.number_cards_drawn)): # NPC has reached seven number cards. This means that the round is over and the NPC gets 15 extra points
@@ -90,8 +93,8 @@ def play_game():
                 player2.is_turn_over = True
                 player2.score = calculate_score(player2.number_cards_drawn, player2.multiplier, player2.score, 15)
 
-        print("The cards you have drawn so far this round are: ", round.cards_drawn, "\n")
-        print("The cards the NPC has drawn so far this round are: ", round.npc_cards_drawn, "\n")
+        print("The cards you have drawn so far this round are: ", player1.cards_drawn, "\n")
+        print("The cards the NPC has drawn so far this round are: ", player2.cards_drawn, "\n")
 
     return player1.score, player2.score
 

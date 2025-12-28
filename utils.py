@@ -1,19 +1,5 @@
 import random
 
-def draw_a_card(full_deck): # Pick another card randomly from the deck.
-
-    weights = list(full_deck.values())
-    options = list(full_deck.keys())
-
-    card = random.choices(options, weights=weights, k=1)[0]
-
-    full_deck[card] -= 1
-
-    if full_deck[card] == 0:
-        del full_deck[card]
-
-    return card, full_deck
-
 def calculate_score(number_card_sum, multiplier, bonus_points, seven_card_bonus):
     return sum(number_card_sum) * multiplier + bonus_points + seven_card_bonus
 
