@@ -1,8 +1,22 @@
-from utils import create_deck
+
 
 class Round:
     def __init__(self):
-        self.deck = create_deck()
+
+        self.is_player_turn_over = False
+        self.is_npc_turn_over = False
+
+        self.player_number_cards_drawn = []
+        self.npc_number_cards_drawn = []
+
+        self.multiplier = 1
+        self.npc_multiplier = 1
+
+        self.player_score = 0
+        self.npc_score = 0
+
+        self.cards_drawn = []
+        self.npc_cards_drawn = []
 
         #self.turn_over = {name: False for name in player_names}
 
