@@ -86,7 +86,6 @@ def play_game():
                 round.is_player_turn_over = True
                 round.is_npc_turn_over = True
                 round.npc_score = calculate_score(round.npc_number_cards_drawn, round.npc_multiplier, round.npc_score, 15)
-     
 
         print("The cards you have drawn so far this round are: ", round.cards_drawn, "\n")
         print("The cards the NPC has drawn so far this round are: ", round.npc_cards_drawn, "\n")
