@@ -41,3 +41,12 @@ class Round:
         full_deck["x2"] = 1
 
         return full_deck
+    
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self.cards_drawn = []
+        self.score = 0
+        self.multiplier = 1
+        self.is_turn_over = False
+        self.number_cards_drawn = []
