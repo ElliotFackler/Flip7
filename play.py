@@ -7,9 +7,6 @@ def play_game():
 
     deck2 = round.create_deck()
 
-
-    print(deck2)
-
     player1 = Player("Player 1")
     player2 = Player("NPC")
 
@@ -28,29 +25,29 @@ def play_game():
             elif (player_input == "Y" or player_input == "y"):
                 card, deck2 = round.draw_a_card(deck2)
                 
-                if (card["Type"] == "Number" and card in player1.number_cards_drawn): # The player draws a card that he/she has already drawn
-                    print("You drew a card that you already have:", card)
+                if (card["Type"] == "Number" and card["Value"] in player1.number_cards_drawn): # The player draws a card that he/she has already drawn
+                    print("You drew a card that you already have:", card["Value"])
                     player1.is_turn_over = True
                     player1.cards_drawn = []
                     player1.score = 0
-                elif (has_bonus_points(card)): # The player draws an additive point modifier card
-                    player1.score = player1.score + add_bonus_points(card)
-                elif (has_freeze(card)): # The player draws a freeze card
+                elif (has_bonus_points(card["Value"])): # The player draws an additive point modifier card
+                    player1.score = player1.score + add_bonus_points(card["Value"])
+                elif (has_freeze(card["Value"])): # The player draws a freeze card
                     print("FREEZE!")
                     player2.is_turn_over = True
-                elif (has_flip_three(card)):
+                elif (has_flip_three(card["Value"])):
                     print("FLIP THREE!")
                     # TODO: Set up flip three
-                elif (has_second_chance(card)):
+                elif (has_second_chance(card["Value"])):
                     print("SECOND CHANCE!")
                     # TODO: Set up second chance.
-                elif (has_multiplier(card)):
+                elif (has_multiplier(card["Value"])):
                     player1.multiplier = 2
                 else: # The player draws a number card
-                    player1.number_cards_drawn.append(card)
+                    player1.number_cards_drawn.append(card["Value"])
 
-                player1.cards_drawn.append(card)
-                print("Your card is", card)
+                player1.cards_drawn.append(card["Value"])
+                print("Your card is", card["Value"])
             else:
                 print("That input is not valid")
                 continue
@@ -64,29 +61,29 @@ def play_game():
         if not player2.is_turn_over:
             card, deck2 = round.draw_a_card(deck2)
 
-            if (card in player2.number_cards_drawn): # The NPC draws a card that he/she has already drawn
+            if (card["Type"] == "Number" and card["Value"] in player2.number_cards_drawn): # The NPC draws a card that he has already drawn
                 print("The NPC drew a card that he already has:", card)
                 player2.is_turn_over = True
                 player2.cards_drawn = []
                 player2.score = 0
-            elif (has_bonus_points(card)): # The NPC draws an additive point modifier card
-                player2.score = player2.score + add_bonus_points(card)
-            elif (has_freeze(card)): # The NPC draws a freeze card
+            elif (has_bonus_points(card["Value"])): # The NPC draws an additive point modifier card
+                player2.score = player2.score + add_bonus_points(card["Value"])
+            elif (has_freeze(card["Value"])): # The NPC draws a freeze card
                 print("FREEZE!")
                 player1.is_turn_over = True
-            elif (has_flip_three(card)):
+            elif (has_flip_three(card["Value"])):
                 print("FLIP THREE!")
                 # TODO: Set up actual flip three stuff
-            elif (has_second_chance(card)):
+            elif (has_second_chance(card["Value"])):
                 print("SECOND CHANCE!")
                 # TODO: Set up second chance.
-            elif (has_multiplier(card)): # The NPC draws the multiplier
+            elif (has_multiplier(card["Value"])): # The NPC draws the multiplier
                 player2.multiplier = 2
             else: # The NPC draws a number card
-                player2.number_cards_drawn.append(card)
+                player2.number_cards_drawn.append(card["Value"])
 
-            player2.cards_drawn.append(card)    
-            print("The NPC's card is", card)
+            player2.cards_drawn.append(card["Value"])    
+            print("The NPC's card is", card["Value"])
 
             if (has_flipped_seven(player2.number_cards_drawn)): # NPC has reached seven number cards. This means that the round is over and the NPC gets 15 extra points
                 player1.is_turn_over = True
