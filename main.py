@@ -1,4 +1,5 @@
 from play import play_game
+import os
 
 # Simulating the card game flip 7 created by Eric Olsen
 
@@ -26,6 +27,8 @@ def main():
         elif (npc_score >= 200 and player_score < npc_score):
             print("You've lost the game. The computer has won the game with a score of", npc_score)
             is_game_over = True
+
+        os.system('cls' if os.name == 'nt' else 'clear')
 
 
 

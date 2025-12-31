@@ -2,7 +2,7 @@ import random
 
 class Round:
     def __init__(self):
-        print("Placeholder")
+        self.discard_pile = []
 
         #self.turn_over = {name: False for name in player_names}
 
@@ -49,3 +49,20 @@ class Player:
         self.multiplier = 1
         self.is_turn_over = False
         self.number_cards_drawn = []
+        self.second_chance = False
+
+class HumanPlayer:
+    def __init__(self):
+        self.info = Player("Human Player")
+
+    def chooseAction(self):
+        player_input = input("Would you like a new card? (y/n)) \n")
+        return player_input
+
+
+class NPCPlayer:
+    def __init__(self):
+        self.info = Player("NPC Player")
+
+    def chooseAction(self):
+        return "y"
