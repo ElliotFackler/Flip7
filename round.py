@@ -6,8 +6,6 @@ class Round:
 
         #self.turn_over = {name: False for name in player_names}
 
-    
-    
     def draw_a_card(self, deck): # Take the card from the top of the deck
 
         if(len(deck)>0):

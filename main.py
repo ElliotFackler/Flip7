@@ -21,7 +21,7 @@ def main():
             print("You've lost the game. The computer has won the game with a score of", game_state.npc_score)
             game_state.is_game_over = True
 
-        os.system('cls' if os.name == 'nt' else 'clear')
+        #os.system('cls' if os.name == 'nt' else 'clear')
 
 
 

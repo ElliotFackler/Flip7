@@ -1,27 +1,30 @@
 import random
 
 class Number:
-    def apply(self, player, card):
-        player.number_cards_drawn.append(card)
+    def apply(self, player, game_state, round):
+        player.number_cards_drawn.append(game_state.card["Value"])
 
 class Freeze:
-    def apply(self, player, card):
-        pass
+    def apply(self, player, game_state, round):
+        player.is_turn_over = True
+        # TODO: Apply freeze to other player.
 
 class SecondChance:
-    def apply(self, player, card):
+    def apply(self, player, game_state, round):
         player.second_chance = True
 
 class FlipThree:
-    def apply(self, player, card):
+    def apply(self, player, game_state, round):
         pass
+        # TODO: Create the flip three function.
 
 class Modifier:
-    def apply(self, player, card):
-        player.score += int(card[1])
+    def apply(self, player, game_state, round):
+        player.score += int(game_state.card["Value"][1])
 
 class Multiplier:
-    def apply(self, player, card):
+    def apply(self, player, card, round):
+        player.multiplier = 2
         pass
 
 class GameState:
@@ -30,6 +33,8 @@ class GameState:
         self.npc_score = 0
         self.is_game_over = False
         self.discard_pile = []
+        self.deck = []
+        self.card = ""
 
     def create_deck(self):
         # Generates a standard Flip7 deck with number cards 1 - 12, point modifiers, multiplier, and action cards.
