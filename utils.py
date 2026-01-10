@@ -1,5 +1,3 @@
-import random
-
 def calculate_score(number_card_sum, multiplier, bonus_points, seven_card_bonus):
     return sum(number_card_sum) * multiplier + bonus_points + seven_card_bonus
 

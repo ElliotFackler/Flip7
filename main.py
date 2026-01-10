@@ -16,7 +16,6 @@ def main():
         # Check if either player has reached a score worthy of victory.
         if (game_state.player_score >= 200 and game_state.player_score > game_state.npc_score):
             print("Congratulations! You've won the game with a total score of", game_state.player_score)
-            is_game_over = True
         elif (game_state.npc_score >= 200 and game_state.player_score < game_state.npc_score):
             print("You've lost the game. The computer has won the game with a score of", game_state.npc_score)
             game_state.is_game_over = True

@@ -19,31 +19,31 @@ def play_game(game_state):
                     game_state.card, game_state.deck = round.draw_a_card(game_state.deck)
 
                     if (game_state.card["Value"] in player.info.number_cards_drawn): # The player draws a card that he/she has already drawn
-                        print("The player", player.info.name,  "drew a card that you already have:", game_state.card["Value"])
+                        print(player.info.name, "busted.")
                         if (player.info.second_chance == False):
                             player.info.is_turn_over = True
                             player.info.cards_drawn = []
                             player.info.score = 0
                         else:
-                            print("Player 1 has used his/her second chance.")
+                            print(player.info.name, "has used his/her second chance.")
                             player.info.second_chance = False
 
-                    game_state.card["Type"].apply(player.info, game_state, round)
+                    game_state.card["Type"].apply(player.info, game_state)
 
                     game_state.discard_pile.append(game_state.card)
                     player.info.cards_drawn.append(game_state.card["Value"])
-                    print("The player", player.info.name, " drew card", game_state.card["Value"])
+                    print(player.info.name, "drew card", game_state.card["Value"])
                 else:
                     print("That input is not valid")
                     continue
 
                 if (has_flipped_seven(player.info.number_cards_drawn)): # Player has reached seven number cards. This means that the round is over and the player gets 15 extra points
-                    print("You've reached seven number cards. The round is over.")
+                    print(player.info.name, "reached seven number cards. The round is over.")
                     player.info.is_turn_over = True
                     playerList[1].info.is_turn_over = True
                     playerList[0].info.is_turn_over = True
                     player.info.score = calculate_score(player.info.number_cards_drawn, player.info.multiplier, player.info.score, 15)
-                print("The cards that", player.info.name, " has drawn so far this round are: ", player.info.cards_drawn, "\n")
+                print("The cards that", player.info.name, "has drawn so far this round are: ", player.info.cards_drawn, "\n")
 
     game_state.player_score += playerList[0].info.score
     game_state.npc_score += playerList[1].info.score
