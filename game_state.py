@@ -1,31 +1,30 @@
 import random
 
 class Number:
-    def apply(self, player, game_state, round):
+    def apply(self, player, game_state):
         player.number_cards_drawn.append(game_state.card["Value"])
 
 class Freeze:
-    def apply(self, player, game_state, round):
+    def apply(self, player, game_state):
         player.is_turn_over = True
         # TODO: Apply freeze to other player.
 
 class SecondChance:
-    def apply(self, player, game_state, round):
+    def apply(self, player, game_state):
         player.second_chance = True
 
 class FlipThree:
-    def apply(self, player, game_state, round):
+    def apply(self, player, game_state):
         pass
         # TODO: Create the flip three function.
 
 class Modifier:
-    def apply(self, player, game_state, round):
+    def apply(self, player, game_state):
         player.score += int(game_state.card["Value"][1])
 
 class Multiplier:
-    def apply(self, player, card, round):
+    def apply(self, player, game_state):
         player.multiplier = 2
-        pass
 
 class GameState:
     def __init__(self):

@@ -1,13 +1,8 @@
-import random
-
 class Round:
     def __init__(self):
         print(" ")
 
-        #self.turn_over = {name: False for name in player_names}
-
     def draw_a_card(self, deck): # Take the card from the top of the deck
-
         if(len(deck)>0):
             card = deck.pop(0)
             return card, deck
